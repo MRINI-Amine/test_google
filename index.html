@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Test Traduction Google</title>
+</head>
+<body>
+  <h1>Bienvenue sur notre page</h1>
+  <p>Ceci est une démonstration simple de changement de langue avec Google Translate.</p>
+
+  <label for="lang-select">🌐 Choisir une langue :</label>
+  <select id="lang-select" onchange="changerLangue(this.value)">
+    <option value="">-- Choisir --</option>
+    <option value="fr">Français</option>
+    <option value="en">Anglais</option>
+    <option value="es">Espagnol</option>
+    <option value="de">Allemand</option>
+    <option value="ar">Arabe</option>
+  </select>
+
+  <script>
+    function changerLangue(langue) {
+      if (!langue) return;
+
+      const urlActuelle = window.location.href;
+      const lienTranslate = `https://translate.google.com/translate?sl=auto&tl=${langue}&u=${encodeURIComponent(urlActuelle)}`;
+
+      // Redirection vers la version traduite
+      window.location.href = lienTranslate;
+    }
+  </script>
+</body>
+</html>
