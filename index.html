@@ -1,34 +1,64 @@
 <!DOCTYPE html>
 <html lang="fr">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Test Traduction Google</title>
-</head>
-<body>
-  <h1>Bienvenue sur notre page</h1>
-  <p>Ceci est une démonstration simple de changement de langue avec Google Translate.</p>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Connexion Google Firebase</title>
 
-  <label for="lang-select">🌐 Choisir une langue :</label>
-  <select id="lang-select" onchange="changerLangue(this.value)">
-    <option value="">-- Choisir --</option>
-    <option value="fr">Français</option>
-    <option value="en">Anglais</option>
-    <option value="es">Espagnol</option>
-    <option value="de">Allemand</option>
-    <option value="ar">Arabe</option>
-  </select>
+    <!-- SDK Firebase (version module ES6) -->
+    <script type="module">
+      // Import Firebase SDK
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
+      import {
+        getAuth,
+        signInWithPopup,
+        GoogleAuthProvider,
+      } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
 
-  <script>
-    function changerLangue(langue) {
-      if (!langue) return;
+      // Config de ton projet Firebase
+      const firebaseConfig = {
+        apiKey: "AIzaSyDwOUvHyQ8l2DHvFamTj01JqH8Zjy9X_z0",
+        authDomain: "auth-test-f216f.firebaseapp.com",
+        projectId: "auth-test-f216f",
+        storageBucket: "auth-test-f216f.firebasestorage.app",
+        messagingSenderId: "72999245617",
+        appId: "1:72999245617:web:aef29f2e25d0170aeac210",
+        measurementId: "G-1PXKL96Q8N",
+      };
 
-      const urlActuelle = window.location.href;
-      const lienTranslate = `https://translate.google.com/translate?sl=auto&tl=${langue}&u=${encodeURIComponent(urlActuelle)}`;
+      // Initialisation Firebase
+      const app = initializeApp(firebaseConfig);
+      const auth = getAuth(app);
+      const provider = new GoogleAuthProvider();
 
-      // Redirection vers la version traduite
-      window.location.href = lienTranslate;
-    }
-  </script>
-</body>
+      // Fonction de connexion
+      window.login = () => {
+        signInWithPopup(auth, provider)
+          .then((result) => {
+            const user = result.user;
+            const info = {
+              nom: user.displayName,
+              email: user.email,
+              photo: user.photoURL,
+              uid: user.uid,
+            };
+            document.getElementById("result").innerText = JSON.stringify(
+              info,
+              null,
+              2
+            );
+          })
+          .catch((error) => {
+            console.error("Erreur de connexion :", error);
+            alert("Erreur : " + error.message);
+          });
+      };
+    </script>
+  </head>
+  <body>
+    <h2>Connexion avec Google (Firebase)</h2>
+    <button onclick="login()">Se connecter avec Google</button>
+
+    <h3>Résultat :</h3>
+    <pre id="result"></pre>
+  </body>
 </html>
